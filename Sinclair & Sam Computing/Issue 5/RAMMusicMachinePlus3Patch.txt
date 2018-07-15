@@ -1,0 +1,54 @@
+RAM jamming on the +3
+By Garry Rowland
+
+The RAM Music Machine has become one of the most widely used musical aids used on a Spectrum. Unfortunately, due to hardware incompatibilities and tape-based software, +3 and +2A users haven't been able to take full advantage of the device.
+
+However, in this article Garry Rowland, publisher of Music Writer, reveals how to get things working.
+
+The RAM Music Machine requires +9v from the Spectrum's expansion port, which unfortunately the +3 or +2A doesn't provide due to a bit of Amstrad's "wisdom". There are a couple of ways of resolving this problem. Firstly, the interface can be modified so that it can use the +3's +12v line. This will void the warranty though. Alternatively, you can use the Fixit adaptor from BG Services which converts the +3 or +2A's expansion port into one which is compatible with all old Spectrum add-ons including the RAM Music Machine.
+
+The RAM Music Machine DOS Patch was written for the current version of the Music Machine supplied by Datel Electronics. There may well be other versions which will not work with this patch. Different versions are unlikely to require anything more than a few addresses to be changed. The assembler source file is included to facilitate any amendments required for different patch versions.
+
+Using the DOS Patch
+The LOAD/SAVE menu can be used to save and load files to tape as before, by using the standard +3 syntax: "t:" to change drive to tape, "t:name" to perform tape operation. Once the load drive has been set to "T", null "" names can be used. Note that files saved as "t:name" will not be loaded as "name", but will load as "" or "t:name".
+  Disc operations use the current default drive. Drive names can be included to save or load files using a specific
+drive. Drive names can be included to save or load files using a specific drive. Drives A, B and M are available.
+  The CAT option catalogues the last drive used (A, B or M). User area numbers are not supported.
+
+Technical DOS Patch
+A program to allow disc usage with the RAM Music Machine.
+
+Garry Rowland says: "The patch is nothing fancy and, apart from the Catalogue drive option, the Music Machine menu doesn't look or handle any differently than before. But it does work.
+
+The files are placed in your public domain library. They are Patch.doc, Patch.asm and Patch.Bas. The .Asm file is in DEVPAC format (and is the same as the listing here). The .Bas file copies the code in a REM into position, then loads the original RAM MM code from tape. It makes a few modifications to the code and saves the new version to disc."
+
+INSTRUCTIONS
+
+To get everything up and running follow these steps:
+
+1. Type in the listing and assemble it
+2. Exit from your assembler into Basic
+3. Load the DOS Patch code
+4. Load the RAM Music Machine code from the RMM cassette with LOAD "" CODE 27000
+5. Type RANDOMIZE USR 26062
+6. With the RMM code now altered, type SAVE "A:3MM.EXE" CODE 26124,39474 to save the new code file onto disc
+7. Reset your computer and type in the following program:
+
+10 CLEAR 26123
+20 LOAD "3MM.EXE" CODE
+30 RANDOMIZE USR 27000
+
+8. Type SAVE "DISK" LINE 10 to save the program (make sure it is on the same disc as the 3MM.EXE file)
+9. The process is now complete, with the disc automatically running from the +3's main menu.
+
+If you want to get hold of a RAM Music Machine then contact Datel Electronics on 0782 744707.
+
+The Fixit is available from BG Services. Telephone 081 397 0763 for more details.
+
+
+THE RAM MUSIC MACHINE
+
+The RAM Music Machine is a technically impressive piece of hardware. Design by the Flare team, most of which were ex-Sinclair Research employees, the device has gained a wide popularity. Comprising sampling and MIDI facilities, it is both a cheap and comprehensive package. While the hardware is excellent (it can sample at over 19,000 samples per second), the supplied software is considered a let down (although this article goes some way to redress this).
+  The MIDI facility includes MIDI In, Out and Thru, all via standard DIN sockets. Sound output is stereo and you can easily link the device to either a hi-fi or headphones. Input is via a supplied microphone with a slider giving control of input.
+
+  While the RAM Music Machine was unavailable for some time, Datel Electronics are now selling stocks at an extremely reasonable £49.99.
