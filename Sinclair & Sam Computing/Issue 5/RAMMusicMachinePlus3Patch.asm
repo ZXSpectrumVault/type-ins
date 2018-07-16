@@ -3,8 +3,8 @@
 
 ORG 26062-13
 
-LOADDRV:    EQU #5B79
-SAVEDRV:    EQU #5B7A
+LODDRV:     EQU #5B79
+SAVDRV:     EQU #5B7A
 BANK_M:     EQU #5B5C
 EXIT:       EQU #9998 ; Exit thru #9998 resets stack and returns to command loop
 
@@ -15,7 +15,7 @@ REMCPY:     ADD HL,BC   ; get address of INIT
             LDIR
             RET         ; Return to BASIC
 
-; INIT copy of RRM Code
+; INIT copy of RMM Code
 INIT:       LD HL,SSLD
             LD (#6AD2),HL   ; Replaces old table entry
             LD A,#C3        ; Call to save routine
@@ -37,9 +37,9 @@ INIT:       LD HL,SSLD
             LDIR
             RET
 
-MENU4:      DEFN "Catalogue drive"
+MENU4:      DEFM "Catalogue drive"
             DEFB 0
-; +3 DOS Patch Starts Here
+; +3DOS Patch Starts Here
 ; Enter with drive to check in (DE)
 CHKDRV:     LD A,(#A615)
             CP ":" ; Check for change of drive
@@ -213,7 +213,7 @@ LDCONT:     CALL BASDOS
             SCF           ; Flag successful load
             RET
 
-ERRMSG:     DEFM "3 DOS error number "
+ERRMSG:     DEFM "+3 DOS error number "
 ERRNUM:     DEFB #30,#30,0
 ; Errors must exit through here
 ; A=0    Close file and return
@@ -243,7 +243,7 @@ DOSERR:     PUSH AF
             LD (ERRNUM),DE
             LD IX,#7080
             CALL #834D ; Clear panel/window
-            LD HL,ERMSG
+            LD HL,ERRMSG
             CALL #81E7 ;  Print DOS error message
             LD HL,#9D2B ; Hit any key!
             CALL #81E7
@@ -292,7 +292,7 @@ FNDFRE:     PUSH BC
             INC C       ; point to next sample
             DJNZ FNDFRE
             LD A,#FD    ; No free samples
-            JP RAMERR
+            JP RMMERR
 FRESMP:     LD A,C
             LD HL,#A6BD
             CALL #872A  ; get address of the free sample
@@ -355,7 +355,7 @@ MKROOM:     LD A,B
 ; LOAD SONG
 LDSNG:      CP 5
             LD A,#FF ; Wrong file type
-            JP NZ,RMERR
+            JP NZ,RMMERR
             CALL CHKTOP
             LD DE,#AACF
             LD HL,(#A6D1)
@@ -390,8 +390,9 @@ LDSNG:      CP 5
             LD HL,#ACCF
             LD (#A6CD),HL
             JP EXIT
-            ; catalogue current default device
-            CALL #81C6 ; Clear screen
+
+; catalogue current default device
+CATLG:      CALL #81C6 ; Clear screen
             LD BC,9
             CALL #82BA ; Set print colour
             CALL BASDOS
@@ -419,7 +420,7 @@ NXNME:      LD C,8
             LD A,"." ; Field separator
             LD C,4
             CALL PTYPE
-            LD A,(H) ; Get MSB of file length
+            LD A,(HL) ; Get MSB of file length
             CALL H2DEC
             LD (HL),E ; Place ASCII where it
             INC HL    ; can be picked up by
@@ -464,7 +465,7 @@ PTYPE:      PUSH HL
             DEC C
             JR NZ,PNAME
             RET
-; Convert hex t o two ASCII decimal numbers (0-99)
+; Convert hex to two ASCII decimal numbers (0-99)
 H2DEC:      LD DE,#0030
 CNVN:       CP 10
             JR C,SETASC
